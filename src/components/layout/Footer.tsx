@@ -1,0 +1,159 @@
+// src/components/layout/Footer.tsx
+//
+// WHY CUSTOM SVGs FOR SOCIAL ICONS:
+// lucide-react removed Twitter, Instagram, and LinkedIn from their
+// icon set in recent versions due to brand licensing concerns.
+// These three are hand-written SVGs — identical visual quality,
+// zero dependency on third-party icon availability.
+
+import { MapPin } from 'lucide-react'
+import { Logo } from '@/components/ui/Logo'
+
+const footerLinks = {
+  Product: [
+    { label: 'Features',     href: '#features'     },
+    { label: 'How it works', href: '#how-it-works' },
+    { label: 'Pricing',      href: '#pricing'      },
+    { label: 'Business',     href: '#business'     },
+    { label: 'Security',     href: '#'             },
+  ],
+  Company: [
+    { label: 'About us', href: '#' },
+    { label: 'Blog',     href: '#' },
+    { label: 'Careers',  href: '#' },
+    { label: 'Press',    href: '#' },
+    { label: 'Contact',  href: '#' },
+  ],
+  Legal: [
+    { label: 'Privacy Policy',   href: '#' },
+    { label: 'Terms of Service', href: '#' },
+    { label: 'Cookie Policy',    href: '#' },
+  ],
+}
+
+// Custom SVGs for social brand icons — no lucide dependency
+const socialLinks = [
+  {
+    label: 'X (Twitter)',
+    href:  '#',
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path
+          d="M12.6 1.5h2.1L9.9 7.1l5.6 7.4h-4.3L7.7 9.7 3.9 14.5H1.8l5.1-6-5.4-7h4.4l3.2 4.2L12.6 1.5zm-.7 11.2h1.2L4.3 2.7H3L11.9 12.7z"
+          fill="currentColor"
+        />
+      </svg>
+    ),
+  },
+  {
+    label: 'Instagram',
+    href:  '#',
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="13" height="13" rx="3.5" stroke="currentColor" strokeWidth="1.5" />
+        <circle cx="8" cy="8" r="2.75" stroke="currentColor" strokeWidth="1.5" />
+        <circle cx="11.75" cy="4.25" r="0.75" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    label: 'LinkedIn',
+    href:  '#',
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="13" height="13" rx="2.5" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M4.5 6.5V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M8 11V8.5C8 7.67 8.67 7 9.5 7v0C10.33 7 11 7.67 11 8.5V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <circle cx="4.5" cy="4.75" r="0.75" fill="currentColor" />
+      </svg>
+    ),
+  },
+]
+
+export function Footer() {
+  const currentYear = new Date().getFullYear()
+
+  return (
+    <footer className="bg-white border-t border-navy-100">
+      <div className="container-main py-14 md:py-20">
+
+        {/* Top: Logo + link columns */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-12 md:gap-8 mb-14">
+
+          {/* Logo column — spans 2 of 5 */}
+          <div className="md:col-span-2">
+            <Logo size="md" />
+
+            <p className="mt-4 text-navy-400 font-body text-sm leading-relaxed max-w-xs">
+              Modern banking built for Nigeria's digital generation.
+              Fast, simple, and built to actually work.
+            </p>
+
+            {/* Social icons */}
+            <div className="flex items-center gap-2 mt-6">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  aria-label={social.label}
+                  className="w-9 h-9 rounded-xl flex items-center justify-center text-navy-400 hover:text-navy bg-bg-subtle hover:bg-navy-100 border border-navy-100 hover:border-navy-200 transition-all duration-200"
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
+
+            {/* Location */}
+            <div className="mt-6 flex items-center gap-2">
+              <MapPin size={13} className="text-navy-400 flex-shrink-0" aria-hidden="true" />
+              <span className="text-xs text-navy-400 font-body">
+                Operating in Nigeria · CBN Compliant
+              </span>
+            </div>
+          </div>
+
+          {/* Link columns */}
+          {Object.entries(footerLinks).map(([category, links]) => (
+            <div key={category}>
+              <h4 className="text-xs font-bold font-body text-navy tracking-widest uppercase mb-4">
+                {category}
+              </h4>
+              <ul className="flex flex-col gap-3">
+                {links.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className="text-sm font-body text-navy-400 hover:text-navy transition-colors duration-200"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom bar */}
+        <div className="pt-8 border-t border-navy-100 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-navy-400 font-body text-center md:text-left">
+            © {currentYear} Moniq Financial Technologies Ltd. All rights reserved.
+          </p>
+          <div className="flex items-center gap-6">
+            <a href="#" className="text-xs text-navy-400 hover:text-navy font-body transition-colors duration-200">
+              Privacy Policy
+            </a>
+            <a href="#" className="text-xs text-navy-400 hover:text-navy font-body transition-colors duration-200">
+              Terms of Service
+            </a>
+            <div className="flex items-center gap-1.5 text-xs text-navy-300 font-body">
+              <MapPin size={11} aria-hidden="true" />
+              Built in Nigeria
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+  )
+}
