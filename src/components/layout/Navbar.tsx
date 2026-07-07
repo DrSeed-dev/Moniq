@@ -1,18 +1,12 @@
 // src/components/layout/Navbar.tsx
-// Floating island navbar. All icons from lucide-react. Zero emojis.
+// Imports NAV_LINKS from constants — single source of truth.
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ChevronRight, MapPin } from 'lucide-react'
 import { cn } from '@/utils/cn'
 import { Logo } from '@/components/ui/Logo'
-
-const NAV_LINKS = [
-  { label: 'Features',     href: '#features'     },
-  { label: 'How it works', href: '#how-it-works' },
-  { label: 'Pricing',      href: '#pricing'      },
-  { label: 'Business',     href: '#business'     },
-]
+import { NAV_LINKS } from '@/constants/navigation'
 
 export function Navbar() {
   const [scrolled,   setScrolled]   = useState(false)
@@ -36,11 +30,8 @@ export function Navbar() {
         }}
         transition={{ duration: 0.3 }}
         className={cn(
-          'max-w-5xl mx-auto',
-          'bg-white/95 backdrop-blur-md',
-          'rounded-2xl',
-          'border border-navy-100',
-          'px-5 py-3',
+          'max-w-5xl mx-auto bg-white/95 backdrop-blur-md',
+          'rounded-2xl border border-navy-100 px-5 py-3',
           'flex items-center justify-between gap-4',
           scrolled && 'border-navy-200'
         )}
@@ -50,33 +41,24 @@ export function Navbar() {
           <Logo size="sm" />
         </a>
 
-        {/* Desktop nav links */}
+        {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
           {NAV_LINKS.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className={cn(
-                'px-4 py-2 rounded-xl',
-                'text-sm font-medium font-body',
-                'text-navy-400 hover:text-navy hover:bg-bg-subtle',
-                'transition-all duration-150'
-              )}
+              className="px-4 py-2 rounded-xl text-sm font-medium font-body text-navy-400 hover:text-navy hover:bg-bg-subtle transition-all duration-150"
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        {/* Right: Location badge + mobile trigger */}
+        {/* Right slot */}
         <div className="flex items-center gap-3">
-
-          {/* Nigeria location badge — icon only, no emoji */}
           <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-bg-subtle border border-navy-100">
             <MapPin size={12} className="text-navy-400" aria-hidden="true" />
-            <span className="text-xs font-semibold text-navy-400 font-body tracking-wide">
-              Nigeria
-            </span>
+            <span className="text-xs font-semibold text-navy-400 font-body tracking-wide">Nigeria</span>
           </div>
 
           {/* Mobile hamburger */}
@@ -87,29 +69,27 @@ export function Navbar() {
             aria-expanded={mobileOpen}
           >
             <AnimatePresence mode="wait" initial={false}>
-              {mobileOpen
-                ? (
-                  <motion.span
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0,   opacity: 1 }}
-                    exit={{   rotate:  90,  opacity: 0 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    <X size={16} />
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="open"
-                    initial={{ rotate:  90, opacity: 0 }}
-                    animate={{ rotate: 0,   opacity: 1 }}
-                    exit={{   rotate: -90,  opacity: 0 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    <Menu size={16} />
-                  </motion.span>
-                )
-              }
+              {mobileOpen ? (
+                <motion.span
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0,   opacity: 1 }}
+                  exit={{   rotate:  90,  opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <X size={16} />
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="open"
+                  initial={{ rotate:  90, opacity: 0 }}
+                  animate={{ rotate: 0,   opacity: 1 }}
+                  exit={{   rotate: -90,  opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <Menu size={16} />
+                </motion.span>
+              )}
             </AnimatePresence>
           </button>
         </div>
@@ -139,7 +119,6 @@ export function Navbar() {
                 </a>
               ))}
 
-              {/* Location row in mobile menu */}
               <div className="mt-2 pt-3 border-t border-navy-100 flex items-center gap-2 px-4 py-2">
                 <MapPin size={13} className="text-navy-400" aria-hidden="true" />
                 <span className="text-xs text-navy-400 font-body">Available in Nigeria</span>

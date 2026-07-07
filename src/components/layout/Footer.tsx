@@ -1,53 +1,23 @@
 // src/components/layout/Footer.tsx
-//
-// WHY CUSTOM SVGs FOR SOCIAL ICONS:
-// lucide-react removed Twitter, Instagram, and LinkedIn from their
-// icon set in recent versions due to brand licensing concerns.
-// These three are hand-written SVGs — identical visual quality,
-// zero dependency on third-party icon availability.
+// Imports FOOTER_LINKS and SITE_CONFIG from constants.
 
 import { MapPin } from 'lucide-react'
 import { Logo } from '@/components/ui/Logo'
+import { FOOTER_LINKS, SITE_CONFIG } from '@/constants/navigation'
 
-const footerLinks = {
-  Product: [
-    { label: 'Features',     href: '#features'     },
-    { label: 'How it works', href: '#how-it-works' },
-    { label: 'Pricing',      href: '#pricing'      },
-    { label: 'Business',     href: '#business'     },
-    { label: 'Security',     href: '#'             },
-  ],
-  Company: [
-    { label: 'About us', href: '#' },
-    { label: 'Blog',     href: '#' },
-    { label: 'Careers',  href: '#' },
-    { label: 'Press',    href: '#' },
-    { label: 'Contact',  href: '#' },
-  ],
-  Legal: [
-    { label: 'Privacy Policy',   href: '#' },
-    { label: 'Terms of Service', href: '#' },
-    { label: 'Cookie Policy',    href: '#' },
-  ],
-}
-
-// Custom SVGs for social brand icons — no lucide dependency
 const socialLinks = [
   {
     label: 'X (Twitter)',
-    href:  '#',
+    href:  SITE_CONFIG.social.twitter,
     icon: (
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path
-          d="M12.6 1.5h2.1L9.9 7.1l5.6 7.4h-4.3L7.7 9.7 3.9 14.5H1.8l5.1-6-5.4-7h4.4l3.2 4.2L12.6 1.5zm-.7 11.2h1.2L4.3 2.7H3L11.9 12.7z"
-          fill="currentColor"
-        />
+        <path d="M12.6 1.5h2.1L9.9 7.1l5.6 7.4h-4.3L7.7 9.7 3.9 14.5H1.8l5.1-6-5.4-7h4.4l3.2 4.2L12.6 1.5zm-.7 11.2h1.2L4.3 2.7H3L11.9 12.7z" fill="currentColor" />
       </svg>
     ),
   },
   {
     label: 'Instagram',
-    href:  '#',
+    href:  SITE_CONFIG.social.instagram,
     icon: (
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <rect x="1.5" y="1.5" width="13" height="13" rx="3.5" stroke="currentColor" strokeWidth="1.5" />
@@ -58,7 +28,7 @@ const socialLinks = [
   },
   {
     label: 'LinkedIn',
-    href:  '#',
+    href:  SITE_CONFIG.social.linkedin,
     icon: (
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <rect x="1.5" y="1.5" width="13" height="13" rx="2.5" stroke="currentColor" strokeWidth="1.5" />
@@ -77,16 +47,14 @@ export function Footer() {
     <footer className="bg-white border-t border-navy-100">
       <div className="container-main py-14 md:py-20">
 
-        {/* Top: Logo + link columns */}
+        {/* Top: Logo + columns */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-12 md:gap-8 mb-14">
 
-          {/* Logo column — spans 2 of 5 */}
+          {/* Logo column */}
           <div className="md:col-span-2">
             <Logo size="md" />
-
             <p className="mt-4 text-navy-400 font-body text-sm leading-relaxed max-w-xs">
-              Modern banking built for Nigeria's digital generation.
-              Fast, simple, and built to actually work.
+              {SITE_CONFIG.description}
             </p>
 
             {/* Social icons */}
@@ -112,8 +80,8 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Link columns */}
-          {Object.entries(footerLinks).map(([category, links]) => (
+          {/* Link columns — from constants */}
+          {Object.entries(FOOTER_LINKS).map(([category, links]) => (
             <div key={category}>
               <h4 className="text-xs font-bold font-body text-navy tracking-widest uppercase mb-4">
                 {category}
@@ -137,15 +105,18 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="pt-8 border-t border-navy-100 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-navy-400 font-body text-center md:text-left">
-            © {currentYear} Moniq Financial Technologies Ltd. All rights reserved.
+            © {currentYear} {SITE_CONFIG.name} Financial Technologies Ltd. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" className="text-xs text-navy-400 hover:text-navy font-body transition-colors duration-200">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-xs text-navy-400 hover:text-navy font-body transition-colors duration-200">
-              Terms of Service
-            </a>
+            {FOOTER_LINKS.Legal.slice(0, 2).map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-xs text-navy-400 hover:text-navy font-body transition-colors duration-200"
+              >
+                {link.label}
+              </a>
+            ))}
             <div className="flex items-center gap-1.5 text-xs text-navy-300 font-body">
               <MapPin size={11} aria-hidden="true" />
               Built in Nigeria

@@ -1,68 +1,12 @@
 // src/components/sections/TestimonialsSection.tsx
-// Masonry layout testimonials. No emojis — location shown as text only.
+// Data imported from src/data/testimonials.ts — component only handles rendering.
 
 import { motion } from 'framer-motion'
 import { MapPin, Star } from 'lucide-react'
 import { Section } from '@/components/layout/Section'
 import { cn } from '@/utils/cn'
-
-interface Testimonial {
-  name:     string
-  role:     string
-  location: string
-  avatar:   string
-  color:    string
-  quote:    string
-  feature:  string
-}
-
-const testimonials: Testimonial[] = [
-  {
-    name:     'Adaeze Okonkwo',
-    role:     'Fashion Designer',
-    location: 'Lagos',
-    avatar:   'AO',
-    color:    'bg-blue-light text-blue-accent',
-    feature:  'Instant Transfers',
-    quote:    "I used to spend 20 minutes in my bank's app just to send money to my suppliers in Aba. With Moniq it takes 5 seconds. I genuinely don't understand why every bank can't do this.",
-  },
-  {
-    name:     'Emeka Nwosu',
-    role:     'Tech Entrepreneur',
-    location: 'Abuja',
-    avatar:   'EN',
-    color:    'bg-mint-light text-mint',
-    feature:  'Business Payments',
-    quote:    "Running payroll for 12 staff used to be a whole Friday afternoon exercise. Now I batch it from my phone in under 3 minutes. The business banking features are built by people who actually understand Nigerian SMEs.",
-  },
-  {
-    name:     'Halima Bello',
-    role:     'Medical Doctor',
-    location: 'Kano',
-    avatar:   'HB',
-    color:    'bg-orange/10 text-orange',
-    feature:  'Smart Savings',
-    quote:    "I set a savings goal for my house deposit in January. The interest rate is competitive and I can see my progress daily. It finally made saving feel motivating rather than painful.",
-  },
-  {
-    name:     'Tunde Adesanya',
-    role:     'Logistics Manager',
-    location: 'Port Harcourt',
-    avatar:   'TA',
-    color:    'bg-blue-light text-blue-accent',
-    feature:  'Zero Fees',
-    quote:    "I was paying over ₦15,000 monthly in bank charges and transfer fees. Switched everything to Moniq two months ago. The savings alone pay for my data subscription.",
-  },
-  {
-    name:     'Ngozi Chibuike',
-    role:     'Content Creator',
-    location: 'Enugu',
-    avatar:   'NC',
-    color:    'bg-mint-light text-mint',
-    feature:  'Spend Analytics',
-    quote:    "The spending breakdown showed me I was spending ₦45,000 a month on food delivery without realising it. Moniq is basically a financial therapist.",
-  },
-]
+import { testimonials } from '@/data/testimonials'
+import type { Testimonial } from '@/data/testimonials'
 
 function StarRating() {
   return (
@@ -80,7 +24,7 @@ function TestimonialCard({ testimonial, index }: { testimonial: Testimonial; ind
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: index * 0.08 }}
+      transition={{ duration: 0.55, ease: 'easeOut', delay: index * 0.08 }}
       className="bg-white rounded-2xl border border-navy-100 shadow-card hover:shadow-card-hover hover:border-navy-200 transition-all duration-300 p-6 flex flex-col gap-4"
     >
       <div className="flex items-center justify-between">
@@ -97,8 +41,7 @@ function TestimonialCard({ testimonial, index }: { testimonial: Testimonial; ind
       <div className="flex items-center gap-3 pt-2 border-t border-navy-100">
         <div
           className={cn(
-            'w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0',
-            'text-xs font-bold font-mono',
+            'w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold font-mono',
             testimonial.color
           )}
           aria-hidden="true"
@@ -128,12 +71,11 @@ export function TestimonialsSection() {
 
   return (
     <Section id="testimonials" className="bg-bg-subtle">
-
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
         className="text-center max-w-xl mx-auto mb-14"
       >
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange/8 border border-orange/20 mb-5">
@@ -160,7 +102,6 @@ export function TestimonialsSection() {
           {col2.map((t, i) => <TestimonialCard key={t.name} testimonial={t} index={i + 4} />)}
         </div>
       </div>
-
     </Section>
   )
 }
