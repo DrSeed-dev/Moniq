@@ -1,9 +1,12 @@
 // src/components/layout/Footer.tsx
-// Imports FOOTER_LINKS and SITE_CONFIG from constants.
+//
+// Links with `comingSoon: true` in navigation.ts trigger a toast
+// instead of navigating anywhere. Real product links scroll to sections.
 
 import { MapPin } from 'lucide-react'
 import { Logo } from '@/components/ui/Logo'
 import { FOOTER_LINKS, SITE_CONFIG } from '@/constants/navigation'
+import { useToast } from '@/components/ui/Toast'
 
 const socialLinks = [
   {
@@ -41,7 +44,8 @@ const socialLinks = [
 ]
 
 export function Footer() {
-  const currentYear = new Date().getFullYear()
+  const currentYear   = new Date().getFullYear()
+  const { showToast } = useToast()
 
   return (
     <footer className="bg-white border-t border-navy-100">
@@ -64,7 +68,11 @@ export function Footer() {
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="w-9 h-9 rounded-xl flex items-center justify-center text-navy-400 hover:text-navy bg-bg-subtle hover:bg-navy-100 border border-navy-100 hover:border-navy-200 transition-all duration-200"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    showToast(`${social.label} — coming soon`)
+                  }}
+                  className="w-9 h-9 rounded-xl flex items-center justify-center text-navy-400 hover:text-navy bg-bg-subtle hover:bg-navy-100 border border-navy-100 hover:border-navy-200 transition-all duration-200 cursor-pointer"
                 >
                   {social.icon}
                 </a>
@@ -80,7 +88,7 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Link columns — from constants */}
+          {/* Link columns */}
           {Object.entries(FOOTER_LINKS).map(([category, links]) => (
             <div key={category}>
               <h4 className="text-xs font-bold font-body text-navy tracking-widest uppercase mb-4">
@@ -89,12 +97,26 @@ export function Footer() {
               <ul className="flex flex-col gap-3">
                 {links.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-sm font-body text-navy-400 hover:text-navy transition-colors duration-200"
-                    >
-                      {link.label}
-                    </a>
+                    {link.comingSoon ? (
+                      // Coming soon — show toast on click, don't navigate
+                      <button
+                        onClick={() => showToast(`${link.label} — coming soon`)}
+                        className="text-sm font-body text-navy-400 hover:text-navy transition-colors duration-200 text-left group flex items-center gap-1.5"
+                      >
+                        {link.label}
+                        <span className="text-[9px] font-bold tracking-widest uppercase text-navy-200 group-hover:text-blue-accent transition-colors duration-200 opacity-0 group-hover:opacity-100">
+                          Soon
+                        </span>
+                      </button>
+                    ) : (
+                      // Real anchor link — scrolls to section
+                      <a
+                        href={link.href}
+                        className="text-sm font-body text-navy-400 hover:text-navy transition-colors duration-200"
+                      >
+                        {link.label}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -109,13 +131,13 @@ export function Footer() {
           </p>
           <div className="flex items-center gap-6">
             {FOOTER_LINKS.Legal.slice(0, 2).map((link) => (
-              <a
+              <button
                 key={link.label}
-                href={link.href}
+                onClick={() => showToast(`${link.label} — coming soon`)}
                 className="text-xs text-navy-400 hover:text-navy font-body transition-colors duration-200"
               >
                 {link.label}
-              </a>
+              </button>
             ))}
             <div className="flex items-center gap-1.5 text-xs text-navy-300 font-body">
               <MapPin size={11} aria-hidden="true" />

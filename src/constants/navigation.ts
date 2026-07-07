@@ -1,10 +1,9 @@
 // src/constants/navigation.ts
 //
-// WHY THIS FILE EXISTS:
-// Navigation links appear in multiple places — Navbar, Footer, mobile menu.
-// If you define them in each component separately, updating one link
-// means finding and editing 3 different files.
-// Define once here, import everywhere. Single source of truth.
+// Each link now has an optional `comingSoon` flag.
+// When true, the Footer renders it with a toast onClick
+// instead of a real href navigation.
+// Product links scroll to real sections — no flag needed.
 
 export const NAV_LINKS = [
   { label: 'Features',     href: '#features'     },
@@ -13,32 +12,30 @@ export const NAV_LINKS = [
   { label: 'Business',     href: '#business'     },
 ]
 
-// Footer link columns — Product, Company, Legal
-// These are anchor links that scroll to real sections on the page,
-// or placeholder # for pages that don't exist yet (Blog, Careers etc.)
-export const FOOTER_LINKS = {
+export const FOOTER_LINKS: {
+  [category: string]: { label: string; href: string; comingSoon?: boolean }[]
+} = {
   Product: [
-    { label: 'Features',       href: '#features'     },
-    { label: 'How it works',   href: '#how-it-works' },
-    { label: 'Pricing',        href: '#pricing'      },
-    { label: 'Business',       href: '#business'     },
-    { label: 'Security',       href: '#'             },
+    { label: 'Features',     href: '#features'     },
+    { label: 'How it works', href: '#how-it-works' },
+    { label: 'Pricing',      href: '#pricing'      },
+    { label: 'Business',     href: '#business'     },
+    { label: 'Security',     href: '#'             },
   ],
   Company: [
-    { label: 'About us',       href: '#'             },
-    { label: 'Blog',           href: '#'             },
-    { label: 'Careers',        href: '#'             },
-    { label: 'Press',          href: '#'             },
-    { label: 'Contact',        href: '#'             },
+    { label: 'About us',  href: '#', comingSoon: true },
+    { label: 'Blog',      href: '#', comingSoon: true },
+    { label: 'Careers',   href: '#', comingSoon: true },
+    { label: 'Press',     href: '#', comingSoon: true },
+    { label: 'Contact',   href: '#', comingSoon: true },
   ],
   Legal: [
-    { label: 'Privacy Policy',   href: '#'           },
-    { label: 'Terms of Service', href: '#'           },
-    { label: 'Cookie Policy',    href: '#'           },
+    { label: 'Privacy Policy',   href: '#', comingSoon: true },
+    { label: 'Terms of Service', href: '#', comingSoon: true },
+    { label: 'Cookie Policy',    href: '#', comingSoon: true },
   ],
 }
 
-// Site-wide config — single source for anything that appears in multiple places
 export const SITE_CONFIG = {
   name:         'Moniq',
   tagline:      'Banking built for modern Nigeria',
